@@ -1,0 +1,68 @@
+.P-form-label {
+  padding: 0;
+}
+
+.P-image {
+  width: 50px;
+  height: 50px;
+  background-size: contain;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.P-text-align-end {
+  text-align: end;
+  padding-right: 20px;
+}
+
+.P-search-box {
+  padding: 8px;
+}
+
+.P-search-box input {
+  width: 188px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.P-search-box button {
+  width: 90px;
+}
+
+.search-button {
+  margin-right: 8px;
+}
+
+.P-input {
+  pointer-events: none;
+}
+
+.P-country-body {
+  height: 88px;
+  max-width: calc(100% - (780px));
+
+  .P-selected-column-body {
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+}
+
+@media (max-width: 1450px) {
+  .P-country-body {
+    width: 80%;
+    max-width: 80%;
+  }
+}
+
+@media (max-width: 1020px) {
+  .P-country-body {
+    width: 80%;
+    max-width: 80%;
+  }
+
+  .P-form-item {
+    min-width: 100px;
+  }
+}

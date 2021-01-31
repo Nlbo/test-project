@@ -1,0 +1,84 @@
+<div class="G-flex-center-between G-mb-20px">
+  <div class="G-column">
+    <h2>Total: {{(list$ | async)?.length}}</h2>
+    <nz-switch [(ngModel)]="type" [nzCheckedChildren]="checkedTemplate"
+               [nzUnCheckedChildren]="unCheckedTemplate"></nz-switch>
+    <ng-template #checkedTemplate><i nz-icon nzType="unordered-list" nzTheme="outline"></i></ng-template>
+    <ng-template #unCheckedTemplate><i nz-icon nzType="idcard" nzTheme="outline"></i></ng-template>
+  </div>
+  <a [routerLink]="['','cats', ManageTypesEnum.Add]" nz-button nzType="primary">Add</a>
+</div>
+<nz-table *ngIf="type" #nzTable [nzScroll]="helperService.tableScroll" [nzData]="list$ | async" nzShowSizeChanger
+          nzShowPagination>
+  <thead>
+  <tr>
+    <th *ngFor="let item of helperService.listOfColumns" [nzWidth]="item.width">{{item.title}}</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr *ngFor="let cat of nzTable.data">
+    <td>
+      <img [src]="cat.img" width="50px" alt="">
+    </td>
+    <td nzEllipsis>{{ cat.name }}</td>
+    <td nzEllipsis>{{ cat.description }}</td>
+    <td nzEllipsis>{{ cat.like.length }}</td>
+    <td>
+      <div class="P-actions G-flex-justify-between">
+        <button nz-button nzType="primary" [routerLink]="['','cats', ManageTypesEnum.Preview, cat.id]">Preview
+        </button>
+        <button nz-button nzType="default" [routerLink]="['','cats', ManageTypesEnum.Edit, cat.id]">Edit</button>
+        <button
+          nzPopconfirmPlacement="right"
+          nzPopconfirmTitle="Are you sure delete this cat?"
+          nz-popconfirm nz-button nzType="default"
+          nzDanger
+          (nzOnConfirm)="deleteCat(cat.id)">
+          Delete
+        </button>
+      </div>
+    </td>
+  </tr>
+  </tbody>
+</nz-table>
+
+<ng-container *ngIf="!type && user">
+  <div class="G-flex G-flex-wrap">
+    <div class="P-cat" *ngFor="let cat of list$ | async">
+      <nz-card class="G-w-100p G-mb-20px" [nzCover]="coverTemplate"
+               [nzActions]="[actionEdit, actionPreview,likesTemplate, actionDelete
+               ]">
+        <nz-card-meta [nzTitle]="cat.name" [nzDescription]="cat.description"></nz-card-meta>
+      </nz-card>
+      <ng-template #coverTemplate>
+        <img alt="example" [src]="cat.img"/>
+      </ng-template>
+
+      <ng-template #likesTemplate>
+        <div class="G-flex-center-center">
+          <i (click)="dislikeCat(cat)" *ngIf="(cat.like | arrayFromObjectKey: 'id').includes(user?.id);else noLiked"
+             nz-icon nzType="heart" nzTheme="fill"></i>
+          <ng-template #noLiked>
+            <i (click)="likeCat(cat)" nz-icon nzType="heart" nzTheme="outline"></i>
+          </ng-template>
+          <span class="G-ml-10px">{{cat.like.length}}</span>
+        </div>
+      </ng-template>
+
+      <ng-template #actionEdit>
+        <i [routerLink]="['','cats', ManageTypesEnum.Edit, cat.id]" nz-icon nzType="edit"></i>
+      </ng-template>
+
+      <ng-template #actionPreview>
+        <i [routerLink]="['','cats', ManageTypesEnum.Preview, cat.id]" nz-icon nzType="eye" nzTheme="outline"></i>
+      </ng-template>
+
+      <ng-template #actionDelete>
+        <i nzPopconfirmPlacement="right"
+           nzPopconfirmTitle="Are you sure delete this cat?"
+           nz-popconfirm nz-button
+           (nzOnConfirm)="deleteCat(cat.id)" nz-icon nzType="delete" nzTheme="outline"></i>
+      </ng-template>
+    </div>
+  </div>
+</ng-container>

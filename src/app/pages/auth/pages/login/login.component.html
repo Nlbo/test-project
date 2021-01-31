@@ -1,0 +1,36 @@
+<div class="P-container">
+  <div class="P-card">
+    <div class="P-logo-section">
+      <img src="assets/images/logo.png">
+      <div class="P-logo-text">
+        <h4>Login to your account</h4>
+        <span>Your credentials</span>
+      </div>
+    </div>
+    <div class="P-form-section">
+
+      <form nz-form class="P-login-form" (ngSubmit)="login()">
+        <nz-form-item>
+          <nz-form-control [nzErrorTip]="usernameErrorText">
+            <nz-input-group nzPrefixIcon="user">
+              <input type="text" nz-input [formControl]="userName" placeholder="User Name"/>
+            </nz-input-group>
+          </nz-form-control>
+          <ng-template #usernameErrorText let-control>
+            <ng-container *ngIf="userName.errors?.required">
+              Please input your username !
+            </ng-container>
+          </ng-template>
+        </nz-form-item>
+        <button
+          nz-button
+          class="P-login-form-button P-login-form-margin"
+          [nzLoading]=" isLogining$ | async"
+          [disabled]="(isLogining$ | async) || (isRegistering | async)"
+          [nzType]="'primary'">
+            Log in
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

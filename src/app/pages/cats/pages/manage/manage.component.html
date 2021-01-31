@@ -1,0 +1,73 @@
+<nz-page-header class="G-mb-10px" nzTitle="Describe product" nzBackIcon *ngIf="ManageType === ManageTypesEnum.Preview">
+  <nz-page-header-title>Describe Cat</nz-page-header-title>
+</nz-page-header>
+
+<form nz-form [nzLayout]="'vertical'" [formGroup]="form.formGroup" (ngSubmit)="submitForm()">
+  <nz-upload
+    nzType="drag"
+    #data
+    [nzMultiple]="false"
+    nzAccept="image/*"
+    [nzBeforeUpload]="beforeUpload"
+    [nzDisabled]="form.img.disabled">
+    <ng-container *ngIf="ManageType === ManageTypesEnum.Add && !form.img.value">
+      <p class="ant-upload-drag-icon">
+        <i nz-icon nzType="inbox"></i>
+      </p>
+      <p class="ant-upload-text">Click or drag file to this area to upload</p>
+      <p class="ant-upload-hint">
+        Support for a single or bulk upload. Strictly prohibit from uploading company data or other band files
+      </p>
+    </ng-container>
+    <ng-container>
+      <img [style.maxWidth.px]="300" [src]="form.img.value" alt="">
+    </ng-container>
+  </nz-upload>
+
+  <div class="G-flex-align-center G-flex-wrap">
+    <div class="G-flex G-w-100p G-flex-wrap">
+      <div class="G-w-100p G-flex-justify-between">
+        <div class="G-w-48p">
+          <nz-form-item class="P-form-item G-min-w-150px G-mr-20px">
+            <nz-form-label class="P-form-label" nzRequired nzFor="name"><span class="G-cursor">Name</span>
+            </nz-form-label>
+            <nz-form-control>
+              <input nz-input id="name" formControlName="name">
+            </nz-form-control>
+          </nz-form-item>
+          <nz-form-item class="P-form-item G-min-w-150px G-mr-20px">
+            <nz-form-label class="P-form-label" nzRequired>Likes</nz-form-label>
+            <nz-select nzMode="multiple" nzPlaceHolder="Select a series" formControlName="like">
+              <nz-option
+                *ngFor="let user of form.like.value"
+                [nzValue]="user"
+                [nzLabel]="user.name">
+              </nz-option>
+            </nz-select>
+          </nz-form-item>
+        </div>
+        <div class="G-w-48p">
+          <nz-form-item class="P-form-item G-min-w-150px">
+            <nz-form-label class="P-form-label" nzRequired nzFor="description">
+              <span class="G-cursor">description</span>
+            </nz-form-label>
+            <nz-form-control>
+              <textarea formControlName="description" nz-input rows="5" placeholder="write any thing"></textarea>
+            </nz-form-control>
+          </nz-form-item>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="G-flex-justify-end" *ngIf="ManageType !== ManageTypesEnum.Preview">
+    <button nz-button [routerLink]="['', 'cats', 'list']">Cancel</button>
+    <button
+      nz-button
+      [nzLoading]="(isCreatingCat$ | async) || (isEditingCat$ | async)"
+      [disabled]="form.formGroup.invalid || (isCreatingCat$ | async) || (isEditingCat$ | async)"
+      nzType="primary"
+      class="G-ml-5px">
+      {{ ManageType === ManageTypesEnum.Add ? 'Add' : 'Edit' }}
+    </button>
+  </div>
+</form>

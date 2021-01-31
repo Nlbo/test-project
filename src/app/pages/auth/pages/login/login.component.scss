@@ -1,0 +1,66 @@
+@import 'variables';
+
+.P-container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  background-image:   linear-gradient(to bottom, rgba(220, 220, 220, 0.52), rgba(220, 220, 220, 0.73)),
+  url('src/assets/images/login-page-bg.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+
+.P-card {
+  margin-top: 250px;
+  width: 320px;
+  height: fit-content;
+  padding-bottom: $app-padding;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.05);
+
+  .P-logo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    img {
+      width: 150px;
+      height: 150px;
+    }
+
+    .P-logo-text {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+
+      span {
+        font-size: 13px;
+      }
+    }
+  }
+
+  .P-form-section {
+    margin-top: $app-margin;
+    width: 90%;
+
+    .P-login-form {
+      max-width: 300px;
+    }
+
+    .P-login-form-margin {
+      margin-bottom: 16px;
+    }
+
+    .P-login-form-forgot {
+      float: right;
+    }
+
+    .P-login-form-button {
+      width: 100%;
+    }
+  }
+}
+}

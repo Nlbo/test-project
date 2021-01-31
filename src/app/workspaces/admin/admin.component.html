@@ -1,0 +1,87 @@
+<nz-layout class="P-layout" [style.paddingLeft.px]="!isCollapsed ? 256 : 80">
+  <nz-sider class="P-menu-sidebar"
+            nzCollapsible
+            nzWidth="256px"
+            nzBreakpoint="md"
+            [(nzCollapsed)]="isCollapsed"
+            [nzTrigger]="null">
+    <div class="P-sidebar-logo">
+      <a routerLink="/">
+        <img src="assets/images/logo.png">
+        <h1>EXAMPLE</h1>
+      </a>
+    </div>
+    <ul nz-menu nzTheme="dark" nzMode="inline" [nzInlineCollapsed]="isCollapsed">
+      <ng-container *ngFor="let item of helperService.menuItems">
+        <ng-container [ngSwitch]="item.type">
+          <li
+            *ngSwitchCase="menuItemTypeEnum.Button"
+            nz-menu-item [routerLink]="['/', item.url]"
+            nzMatchRouter>
+            <i nz-icon [nzType]="item.icon"></i>
+            <span>{{item.title}}</span>
+          </li>
+          <li *ngSwitchCase="menuItemTypeEnum.Dropdown" nz-submenu [nzOpen]="router.url.includes('/' + item.url + '/')"
+              [nzTitle]="item.title" [nzIcon]="item.icon">
+            <ul>
+              <li *ngFor="let subItem of item.items" nz-menu-item nzMatchRouter>
+                <a [routerLink]="['/', item.url, subItem.url]">{{subItem.title}}</a>
+              </li>
+            </ul>
+          </li>
+        </ng-container>
+      </ng-container>
+    </ul>
+  </nz-sider>
+  <nz-layout>
+    <nz-header>
+      <div class="P-header G-flex-center-between"
+           [class.isCollapsedHeader]="isCollapsed"
+           [class.P-is-not-collapsed-header]="!isCollapsed">
+        <span class="P-header-trigger G-flex-center-center">
+            <i class="P-trigger"
+               nz-icon
+               (click)="isCollapsed = !isCollapsed"
+               [nzType]="isCollapsed ? 'menu-unfold' : 'menu-fold'">
+            </i>
+        </span>
+        <div class="G-pr-20px G-flex">
+          <div class="G-flex-center-center G-pr-20px">
+            <div class="G-column G-flex-justify-between G-h-100p" *ngIf="false">
+              <span class="G-bold ant-tag-blue">TOTAL VOLUME</span>
+              <span class="G-bold">32840</span>
+            </div>
+          </div>
+          <div class="G-pr-20px G-flex-center-center" *ngIf="false">
+            <nz-avatar [nzShape]="'square'" [nzSize]="'small'" [nzIcon]="'user'"></nz-avatar>
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+              {{'English'}}
+              <i nz-icon nzType="down"></i>
+            </a>
+          </div>
+          <div class="G-flex-center-center">
+            <nz-avatar class="G-m-0px" nzIcon="user"></nz-avatar>
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu">
+              {{(user$ | async)?.fullName }}
+              <i nz-icon nzType="down"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nz-header>
+    <nz-content>
+      <div class="P-inner-content">
+        <router-outlet></router-outlet>
+      </div>
+    </nz-content>
+  </nz-layout>
+</nz-layout>
+
+<nz-dropdown-menu #menu="nzDropdownMenu">
+  <ul nz-menu nzSelectable>
+    <li nz-menu-item (click)="logOut()">
+      <i nz-icon nzType="logout" nzTheme="outline"></i>
+      LogOut
+    </li>
+  </ul>
+</nz-dropdown-menu>
